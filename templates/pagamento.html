@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pagamento - Loja Bravin</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f0f0;
+        }
+
+        header {
+            background-color: #004080;
+            color: white;
+            padding: 10px 0;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+        }
+
+        .imagem-loja {
+            max-width: 80px;
+            height: auto;
+            border-radius: 8px;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            margin: 0;
+            padding: 0;
+        }
+
+        nav ul li {
+            margin: 0 15px;
+        }
+
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+
+        nav ul li a:hover {
+            text-decoration: underline;
+            opacity: 0.8;
+        }
+
+        main {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        h2 {
+            color: #004080;
+            text-align: center;
+            margin: 30px 0 20px;
+        }
+
+        h3 {
+            color: #004080;
+            margin: 20px 0 15px;
+            border-bottom: 2px solid #004080;
+            padding-bottom: 10px;
+        }
+
+        .pagamento-container {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 30px;
+        }
+
+        .formulario-pagamento, .resumo-pedido {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #004080;
+        }
+
+        .form-group input, 
+        .form-group select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+            box-sizing: border-box;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #004080;
+            box-shadow: 0 0 5px rgba(0, 64, 128, 0.2);
+        }
+
+        .form-row {
+            display: flex;
+            gap: 15px;
+        }
+
+        .form-row .form-group {
+            flex: 1;
+        }
+
+        .required::after {
+            content: "*";
+            color: red;
+            margin-left: 4px;
+        }
+
+        .metodo-pagamento {
+            margin: 20px 0;
+        }
+
+        .metodo-opcao {
+            display: flex;
+            align-items: center;
+            margin: 10px 0;
+            padding: 15px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .metodo-opcao:hover {
+            border-color: #004080;
+        }
+
+        .metodo-opcao.selected {
+            border-color: #004080;
+            background-color: #f0f7ff;
+        }
+
+        .metodo-opcao input[type="radio"] {
+            margin-right: 10px;
+            width: auto;
+        }
+
+        .metodo-icon {
+            font-size: 24px;
+            margin-right: 10px;
+        }
+
+        .detalhes-cartao {
+            display: none;
+            margin-top: 20px;
+            padding: 20px;
+            background-color: #f8f9fa;
+            border-radius: 8px;
+        }
+
+        .resumo-linha {
+            display: flex;
+            justify-content: space-between;
+            margin: 10px 0;
+            font-size: 16px;
+        }
+
+        .resumo-total {
+            display: flex;
+            justify-content: space-between;
+            margin: 20px 0 10px 0;
+            font-size: 20px;
+            font-weight: bold;
+            color: #004080;
+            border-top: 2px solid #004080;
+            padding-top: 15px;
+        }
+
+        .item-resumo {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 15px 0;
+            padding: 10px;
+            background-color: #f8f9fa;
+            border-radius: 5px;
+        }
+
+        .btn-finalizar {
+            background-color: #28a745;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 18px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            width: 100%;
+            font-weight: bold;
+            margin-top: 20px;
+        }
+
+        .btn-finalizar:hover {
+            background-color: #218838;
+        }
+
+        .btn-voltar {
+            background-color: #6c757d;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            margin-top: 15px;
+            width: 100%;
+            text-align: center;
+            box-sizing: border-box;
+        }
+
+        .btn-voltar:hover {
+            background-color: #5a6268;
+        }
+
+        .endereco-entrega {
+            background-color: #e9f7ef;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+
+        footer {
+            text-align: center;
+            background-color: #003366;
+            color: white;
+            padding: 15px;
+            margin-top: 30px;
+        }
+
+        .success-message {
+            display: none;
+            background-color: #d4edda;
+            color: #155724;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            text-align: center;
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        @media (max-width: 768px) {
+            .pagamento-container {
+                grid-template-columns: 1fr;
+            }
+
+            .form-row {
+                flex-direction: column;
+                gap: 0;
+            }
+
+            .formulario-pagamento, .resumo-pedido {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <nav>
+            <div class="logo">
+                <img src="../static/img/logo.png" alt="logo Bravin" class="imagem-loja">
+            </div>
+            <ul>
+                <li><a href="index.html">Início</a></li>
+                <li><a href="login.html">Login</a></li>
+                <li><a href="cadastro.html">Cadastro</a></li>
+                <li><a href="produtos.html">Produtos</a></li>
+                <li><a href="carrinho.html">Carrinho</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <h2>Finalizar Compra</h2>
+
+        <div id="success-msg" class="success-message">
+            ✅ Pedido realizado com sucesso! Você receberá um e-mail de confirmação em breve.
+        </div>
+
+        <div class="pagamento-container" id="pagamento-form">
+            <div class="formulario-pagamento">
+                <h3>Dados de Entrega</h3>
+                
+                <form id="form-pagamento">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="nome" class="required">Nome Completo</label>
+                            <input type="text" id="nome" name="nome" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="telefone" class="required">Telefone</label>
+                            <input type="tel" id="telefone" name="telefone" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email" class="required">E-mail</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="cep" class="required">CEP</label>
+                            <input type="text" id="cep" name="cep" placeholder="00000-000" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="cidade" class="required">Cidade</label>
+                            <input type="text" id="cidade" name="cidade" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="endereco" class="required">Endereço</label>
+                        <input type="text" id="endereco" name="endereco" placeholder="Rua, número" required>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="bairro" class="required">Bairro</label>
+                            <input type="text" id="bairro" name="bairro" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="complemento">Complemento</label>
+                            <input type="text" id="complemento" name="complemento" placeholder="Apto, casa, etc.">
+                        </div>
+                    </div>
+
+                    <h3>Método de Pagamento</h3>
+                    
+                    <div class="metodo-pagamento">
+                        <div class="metodo-opcao" onclick="selecionarMetodo('cartao')">
+                            <input type="radio" name="pagamento" value="cartao" id="cartao">
+                            <span class="metodo-icon">💳</span>
+                            <label for="cartao">Cartão de Crédito/Débito</label>
+                        </div>
+
+                        <div class="metodo-opcao" onclick="selecionarMetodo('pix')">
+                            <input type="radio" name="pagamento" value="pix" id="pix">
+                            <span class="metodo-icon">📱</span>
+                            <label for="pix">PIX</label>
+                        </div>
+
+                        <div class="metodo-opcao" onclick="selecionarMetodo('boleto')">
+                            <input type="radio" name="pagamento" value="boleto" id="boleto">
+                            <span class="metodo-icon">🧾</span>
+                            <label for="boleto">Boleto Bancário</label>
+                        </div>
+                    </div>
+
+                    <div id="detalhes-cartao" class="detalhes-cartao">
+                        <div class="form-group">
+                            <label for="numero-cartao" class="required">Número do Cartão</label>
+                            <input type="text" id="numero-cartao" name="numero-cartao" placeholder="0000 0000 0000 0000" maxlength="19">
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="validade" class="required">Validade</label>
+                                <input type="text" id="validade" name="validade" placeholder="MM/AA" maxlength="5">
+                            </div>
+                            <div class="form-group">
+                                <label for="cvv" class="required">CVV</label>
+                                <input type="text" id="cvv" name="cvv" placeholder="000" maxlength="4">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="nome-cartao" class="required">Nome no Cartão</label>
+                            <input type="text" id="nome-cartao" name="nome-cartao">
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <div class="resumo-pedido">
+                <h3>Resumo do Pedido</h3>
+                
+                <div class="item-resumo">
+                    <span>Produto 1 (x2)</span>
+                    <span>R$ 199,98</span>
+                </div>
+                <div class="item-resumo">
+                    <span>Produto 3 (x1)</span>
+                    <span>R$ 199,99</span>
+                </div>
+
+                <div class="resumo-linha">
+                    <span>Subtotal:</span>
+                    <span>R$ 399,97</span>
+                </div>
+                <div class="resumo-linha">
+                    <span>Frete:</span>
+                    <span>R$ 15,00</span>
+                </div>
+                <div class="resumo-total">
+                    <span>Total:</span>
+                    <span>R$ 414,97</span>
+                </div>
+
+                <div class="endereco-entrega">
+                    <strong>📦 Entrega estimada:</strong><br>
+                    5 a 7 dias úteis
+                </div>
+
+                <button type="button" class="btn-finalizar" onclick="finalizarPedido()">
+                    Confirmar Pedido
+                </button>
+                
+                <a href="carrinho.html" class="btn-voltar">Voltar ao Carrinho</a>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 Loja Bravin. Todos os direitos reservados.</p>
+    </footer>
+</body>
+</html>

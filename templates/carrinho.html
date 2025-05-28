@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carrinho - Loja Bravin</title>
+    <link rel="stylesheet" href="../static/style.css">
+</head>
+
+<body>
+    <header>
+        <nav>
+            <div class="logo">
+                <img src="../static/img/logo.png" alt="logo Bravin" class="imagem-loja">
+            </div>
+            <ul>
+                <li><a href="index.html">Início</a></li>
+                <li><a href="login.html">Login</a></li>
+                <li><a href="cadastro.html">Cadastro</a></li>
+                <li><a href="produtos.html">Produtos</a></li>
+                <li><a href="carrinho.html" style="text-decoration: underline;">Carrinho</a></li>
+                <li><a href="pagamento.html">Pagamento</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <h2>Meu Carrinho</h2>
+        
+        <div class="carrinho-container">
+            <div id="itens-carrinho">
+                <div class="item-carrinho">
+                    <img src="../static/img/produto1.jpg" alt="Produto 1" class="item-imagem">
+                    <div class="item-info">
+                        <h3 class="item-nome">Produto 1</h3>
+                        <p class="item-descricao">Descrição do Produto 1</p>
+                        <p class="item-preco">R$ 99,99</p>
+                    </div>
+                    <div class="item-quantidade">
+                        <button class="btn-quantidade" onclick="diminuirQuantidade(1)">-</button>
+                        <span class="quantidade-display" id="quantidade-1">2</span>
+                        <button class="btn-quantidade" onclick="aumentarQuantidade(1)">+</button>
+                    </div>
+                    <button class="btn-remover" onclick="removerItem(1)">Remover</button>
+                </div>
+
+                <div class="item-carrinho">
+                    <img src="../static/img/produto3.jpg" alt="Produto 3" class="item-imagem">
+                    <div class="item-info">
+                        <h3 class="item-nome">Produto 3</h3>
+                        <p class="item-descricao">Descrição do Produto 3</p>
+                        <p class="item-preco">R$ 199,99</p>
+                    </div>
+                    <div class="item-quantidade">
+                        <button class="btn-quantidade" onclick="diminuirQuantidade(3)">-</button>
+                        <span class="quantidade-display" id="quantidade-3">1</span>
+                        <button class="btn-quantidade" onclick="aumentarQuantidade(3)">+</button>
+                    </div>
+                    <button class="btn-remover" onclick="removerItem(3)">Remover</button>
+                </div>
+            </div>
+
+            <div class="resumo-carrinho">
+                <div class="resumo-linha">
+                    <span>Subtotal:</span>
+                    <span id="subtotal">R$ 399,97</span>
+                </div>
+                <div class="resumo-linha">
+                    <span>Frete:</span>
+                    <span id="frete">R$ 15,00</span>
+                </div>
+                <div class="resumo-total">
+                    <span>Total:</span>
+                    <span id="total">R$ 414,97</span>
+                </div>
+                
+                <button class="btn-finalizar" onclick="irParaPagamento()">Finalizar Compra</button>
+                <a href="produtos.html" class="btn-continuar">Continuar Comprando</a>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 Loja Bravin. Todos os direitos reservados.</p>
+    </footer>
+</body>
+</html>
